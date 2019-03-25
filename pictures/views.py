@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .models import Article
 import datetime as dt
 from .forms import PicturesForm,NewArticleForm
+from .email import send_welcome_email
 
 from django.contrib.auth.decorators import login_required
 
