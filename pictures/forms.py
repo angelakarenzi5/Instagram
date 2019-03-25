@@ -1,7 +1,7 @@
 from django import forms
-from .models import Image
+from .models import Image, Profile
 
-class PicturesForm(forms.Form):
+class PicturesLetterForm(forms.Form):
     your_name = forms.CharField(label='First Name',max_length=30)
     email = forms.EmailField(label='Email')
 
@@ -10,3 +10,8 @@ class NewImageForm(forms.ModelForm):
         model = Image
         exclude = ['profile', 'pub_date','likes']
      
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['profile', 'pub_date','likes']

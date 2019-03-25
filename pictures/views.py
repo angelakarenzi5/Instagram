@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .models import Image
 import datetime as dt
-from .forms import NewImageForm, PicturesForm
+from .forms import NewImageForm, PicturesLetterForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 
@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 def pictures_of_day(request):
     date = dt.date.today()
     pictures = Image.objects.all()
-    return render(request, 'all-pictures/today-pictures.html', {"date": date,'pictures':pictures})
+    return render(request, 'all-pictures/today-pictures.html', {'pictures':pictures})
 
 # def past_days_pictures(request, past_date):
 #     try:
@@ -32,7 +32,13 @@ def pictures_of_day(request):
 @login_required(login_url='/accounts/login/')
 def pictures_today(request):
     if request.method == 'POST':
-        form = PicturesForm(request.POST)
+        form = PicturesLetterForm(request.POST)
+        if form.is_valid():
+            print('valid')
+        form = PicturesLetterForm(request.POST)
+    else:
+        form = NewsLetterForm()
+
         if form.is_valid():
             name = form.cleaned_data['your_name']
             email = form.cleaned_data['email']
@@ -43,7 +49,7 @@ def pictures_today(request):
             HttpResponseRedirect('pictures_today')
         else:
             form = PicturesForm()
-    return render(request, 'all-pictures/today-pictures.html', {"date": date,"pictures":pictures,"PicturesForm":form})
+    return render(request, 'all-pictures/today-pictures.html', {"pictures":pictures,"PicturesForm":form})
 
 @login_required(login_url='/accounts/login/')
 def search_results(request):
