@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect 
 from django.http import HttpResponse, Http404,HttpResponseRedirect
-from .models import Article
+from .models import Image
 import datetime as dt
-from .forms import PicturesForm,NewArticleForm
+from .forms import NewImageForm, PicturesForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 
@@ -73,7 +73,7 @@ def new_image(request, image_id):
         if form.is_valid():
             image = form.save(commit=False)
             image.profile = current_user
-            article.save()
+            image.save()
         return redirect('PicturesToday')
 
     else:
