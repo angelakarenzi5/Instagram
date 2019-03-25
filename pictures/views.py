@@ -43,15 +43,14 @@ def pictures_today(request):
         if form.is_valid():
             name = form.cleaned_data['your_name']
             email = form.cleaned_data['email']
-
             recipient = PicturesRecipients(name = name,email =email)
             recipient.save()
             send_welcome_email(name,email)
 
-            HttpResponseRedirect('news_today')
+            HttpResponseRedirect('pictures_today')
         else:
             form = PicturesForm()
-    return render(request, 'all-news/today-pictures.html', {"date": date,"news":news,"letterForm":form})
+    return render(request, 'all-pictures/today-pictures.html', {"date": date,"pictures":pictures,"PicturesForm":form})
 def search_results(request):
 
     if 'article' in request.GET and request.GET["article"]:
