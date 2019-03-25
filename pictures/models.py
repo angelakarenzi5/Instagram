@@ -6,8 +6,7 @@ from tinymce.models import HTMLField
 # Create your models here.
 class Profile(models.Model):
     profile_photo = models.ImageField(upload_to='gram/', blank=True)
-    user_name = models.CharField(max_length =30)
-    email = models.EmailField()
+    bio= models.CharField(max_length =30)
 
 def __str__(self):
         return self.user_name

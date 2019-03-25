@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
+@login_required(login_url='/accounts/login/')
 def pictures_of_day(request):
     date = dt.date.today()
     pictures = Image.objects.all()
@@ -28,6 +29,7 @@ def pictures_of_day(request):
 #     pictures = Image.days_pictures(date)
 #     return render(request, 'all-pictures/past-pictures.html',{"date": date,"pictures":pictures})
 
+@login_required(login_url='/accounts/login/')
 def pictures_today(request):
     if request.method == 'POST':
         form = PicturesForm(request.POST)
@@ -42,6 +44,8 @@ def pictures_today(request):
         else:
             form = PicturesForm()
     return render(request, 'all-pictures/today-pictures.html', {"date": date,"pictures":pictures,"PicturesForm":form})
+
+@login_required(login_url='/accounts/login/')
 def search_results(request):
 
     if 'article' in request.GET and request.GET["article"]:
