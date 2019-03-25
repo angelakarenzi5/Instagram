@@ -10,34 +10,24 @@ from django.contrib.auth.decorators import login_required
 
 def pictures_of_day(request):
     date = dt.date.today()
-    return render(request, 'all-pictures/today-pictures.html', {"date": date,})
-def convert_dates(dates):
+    pictures = Image.objects.all()
+    return render(request, 'all-pictures/today-pictures.html', {"date": date,'pictures':pictures})
 
-    # Function that gets the weekday number for the date.
-    day_number = dt.date.weekday(dates)
+# def past_days_pictures(request, past_date):
+#     try:
+#         # Converts data from the string Url
+#         date = dt.datetime.strptime(past_date, '%Y-%m-%d').date()
+#     except ValueError:
+#         # Raise 404 error when ValueError is thrown
+#         raise Http404()
+#         assert False
 
-    days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday',"Sunday"]
+#     if date == dt.date.today():
+#         return redirect(pictures_today)
 
-    # Returning the actual day of the week
-    day = days[day_number]
-    return day
+#     pictures = Image.days_pictures(date)
+#     return render(request, 'all-pictures/past-pictures.html',{"date": date,"pictures":pictures})
 
-def past_days_pictures(request, past_date):
-    try:
-        # Converts data from the string Url
-        date = dt.datetime.strptime(past_date, '%Y-%m-%d').date()
-    except ValueError:
-        # Raise 404 error when ValueError is thrown
-        raise Http404()
-        assert False
-
-    if date == dt.date.today():
-        return redirect(pictures_today)
-
-    pictures = Image.days_pictures(date)
-    return render(request, 'all-pictures/past-pictures.html',{"date": date,"pictures":pictures})
-
-from .email import send_welcome_email
 def pictures_today(request):
     if request.method == 'POST':
         form = PicturesForm(request.POST)
@@ -66,15 +56,15 @@ def search_results(request):
         return render(request, 'all-pictures/search.html',{"message":message})
 
 @login_required(login_url='/accounts/login/')
-def new_image(request, image_id):
+def new_image(request):
     current_user = request.user
     if request.method == 'POST':
         form = NewImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
-            image.profile = current_user
+            image.profile=current_user
             image.save()
-        return redirect('PicturesToday')
+        return redirect('picturesToday')
 
     else:
         form = NewImageForm()

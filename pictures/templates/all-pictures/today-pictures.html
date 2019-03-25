@@ -8,26 +8,27 @@
    <!-- Looping through pictures   -->
    <div class="container-fluid">
 
-     <form  action="{%url 'picturesToday'%}" method="post">
+     <!-- <form  action="{%url 'picturesToday'%}" method="post">
        {%csrf_token%}
 
       {% for field in form %}
         {% bootstrap_field field %}
       {% endfor %}
        <input type="submit" value="Subscribe">
-     </form>
+     </form> -->
 
     </div>
+    
    {% for pictures_item in pictures %}
 
    <div class="row">
      <!-- displaying pictures articles -->
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-       <h2 class="text-center"> {{ pictures_item.title }} </h2>
+       <h2 class="text-center"> {{ pictures_item.image_caption }} </h2>
      </div>
      <!--Display pictures Article images  -->
    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-       <img src="{{pictures_item.article_image.url}}" class="img-responsive" alt="Image">
+       <img src="{{pictures_item.image.url}}" class="img-responsive" alt="Image">
      </div>
 
    </div>

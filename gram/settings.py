@@ -80,7 +80,7 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = 'image.wsgi.application'
+WSGI_APPLICATION = 'gram.wsgi.application'
 
 
 # Database
@@ -140,4 +140,4 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_REDIRECT_URL = 'Home'
+# LOGIN_REDIRECT_URL = 'Home'
