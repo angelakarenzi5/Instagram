@@ -1,14 +1,14 @@
-{%extends 'all-news/base.html'%}
+{%extends 'all-pictures/base.html'%}
 {% load bootstrap3 %}
 
 {% block content %}
 {{block.super}}
 <div class="container">
 
-   <!-- Looping through news   -->
+   <!-- Looping through pictures   -->
    <div class="container-fluid">
 
-     <form  action="{%url 'newsToday'%}" method="post">
+     <form  action="{%url 'picturesToday'%}" method="post">
        {%csrf_token%}
 
       {% for field in form %}
@@ -18,16 +18,16 @@
      </form>
 
     </div>
-   {% for news_item in news %}
+   {% for pictures_item in pictures %}
 
    <div class="row">
-     <!-- displaying News articles -->
+     <!-- displaying pictures articles -->
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-       <h2 class="text-center"> {{ news_item.title }} </h2>
+       <h2 class="text-center"> {{ pictures_item.title }} </h2>
      </div>
-     <!--Display news Article images  -->
+     <!--Display pictures Article images  -->
    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-       <img src="{{news_item.article_image.url}}" class="img-responsive" alt="Image">
+       <img src="{{pictures_item.article_image.url}}" class="img-responsive" alt="Image">
      </div>
 
    </div>
@@ -36,7 +36,7 @@
 
    {% empty %}
    <div class="row">
-     <h2 class="text-center">There No News Items</h2>
+     <h2 class="text-center">There No pictures Items</h2>
    </div>
    {% endfor %}
 

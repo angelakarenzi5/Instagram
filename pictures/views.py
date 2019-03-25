@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .models import Article
 import datetime as dt
-from .forms import NewsLetterForm,NewArticleForm
+from .forms import PicturesForm,NewArticleForm
 
 from django.contrib.auth.decorators import login_required
 
 
-def news_of_day(request):
+def pictures_of_day(request):
     date = dt.date.today()
-    return render(request, 'all-news/today-news.html', {"date": date,})
+    return render(request, 'all-news/today-pictures.html', {"date": date,})
 def convert_dates(dates):
 
     # Function that gets the weekday number for the date.
@@ -37,21 +37,21 @@ def past_days_news(request, past_date):
     return render(request, 'all-news/past-news.html',{"date": date,"news":news})
 
 from .email import send_welcome_email
-def news_today(request):
+def pictures_today(request):
     if request.method == 'POST':
-        form = NewsLetterForm(request.POST)
+        form = PicturesForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['your_name']
             email = form.cleaned_data['email']
 
-            recipient = NewsLetterRecipients(name = name,email =email)
+            recipient = PicturesRecipients(name = name,email =email)
             recipient.save()
             send_welcome_email(name,email)
 
             HttpResponseRedirect('news_today')
         else:
-            form = NewsLetterForm()
-    return render(request, 'all-news/today-news.html', {"date": date,"news":news,"letterForm":form})
+            form = PicturesForm()
+    return render(request, 'all-news/today-pictures.html', {"date": date,"news":news,"letterForm":form})
 def search_results(request):
 
     if 'article' in request.GET and request.GET["article"]:
