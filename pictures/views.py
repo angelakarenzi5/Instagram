@@ -4,8 +4,8 @@ from .models import Article
 import datetime as dt
 from .forms import PicturesForm,NewArticleForm
 from .email import send_welcome_email
-
 from django.contrib.auth.decorators import login_required
+
 
 
 def pictures_of_day(request):
@@ -66,17 +66,17 @@ def search_results(request):
         return render(request, 'all-news/search.html',{"message":message})
 
 @login_required(login_url='/accounts/login/')
-def new_article(request):
+def new_image(request, image_id):
     current_user = request.user
     if request.method == 'POST':
-        form = NewArticleForm(request.POST, request.FILES)
+        form = NewImageForm(request.POST, request.FILES)
         if form.is_valid():
-            article = form.save(commit=False)
-            article.editor = current_user
+            image = form.save(commit=False)
+            image.username = current_user
             article.save()
-        return redirect('NewsToday')
+        return redirect('PicturesToday')
 
     else:
-        form = NewArticleForm()
-    return render(request, 'new_article.html', {"form": form})
+        form = NewImageForm()
+    return render(request, 'new_image.html', {"form": form})
 
