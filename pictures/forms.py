@@ -7,7 +7,7 @@ class PicturesForm(forms.Form):
 
 class NewImageForm(forms.ModelForm):
     class Meta:
-        model = Article
+        model = Image
         exclude = ['profile', 'pub_date']
         widgets = {
             'likes': forms.CheckboxSelectMultiple(),

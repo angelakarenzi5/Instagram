@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 def pictures_of_day(request):
     date = dt.date.today()
-    return render(request, 'all-news/today-pictures.html', {"date": date,})
+    return render(request, 'all-pictures/today-pictures.html', {"date": date,})
 def convert_dates(dates):
 
     # Function that gets the weekday number for the date.
@@ -22,7 +22,7 @@ def convert_dates(dates):
     day = days[day_number]
     return day
 
-def past_days_news(request, past_date):
+def past_days_pictures(request, past_date):
     try:
         # Converts data from the string Url
         date = dt.datetime.strptime(past_date, '%Y-%m-%d').date()
@@ -32,10 +32,10 @@ def past_days_news(request, past_date):
         assert False
 
     if date == dt.date.today():
-        return redirect(news_today)
+        return redirect(pictures_today)
 
-    news = Article.days_news(date)
-    return render(request, 'all-news/past-news.html',{"date": date,"news":news})
+    pictures = Image.days_pictures(date)
+    return render(request, 'all-pictures/past-pictures.html',{"date": date,"pictures":pictures})
 
 from .email import send_welcome_email
 def pictures_today(request):
@@ -59,11 +59,11 @@ def search_results(request):
         searched_articles = Article.search_by_title(search_term)
         message = f"{search_term}"
 
-        return render(request, 'all-news/search.html',{"message":message,"articles": searched_articles})
+        return render(request, 'all-pictures/search.html',{"message":message,"articles": searched_articles})
 
     else:
         message = "You haven't searched for any term"
-        return render(request, 'all-news/search.html',{"message":message})
+        return render(request, 'all-pictures/search.html',{"message":message})
 
 @login_required(login_url='/accounts/login/')
 def new_image(request, image_id):
