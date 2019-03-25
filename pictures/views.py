@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .models import Image
 import datetime as dt
-from .forms import NewImageForm, PicturesLetterForm
+from .forms import NewImageForm, PicturesLetterForm, ProfileForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 
@@ -13,6 +13,14 @@ def pictures_of_day(request):
     date = dt.date.today()
     pictures = Image.objects.all()
     return render(request, 'all-pictures/today-pictures.html', {'pictures':pictures})
+
+
+@login_required(login_url='/accounts/login/')
+def pictures_of_day(request):
+    date = dt.date.today()
+    pictures = Image.objects.all()
+    return render(request, 'all-pictures/today-pictures.html', {'pictures':pictures})
+
 
 # def past_days_pictures(request, past_date):
 #     try:
@@ -80,3 +88,18 @@ def new_image(request):
         form = NewImageForm()
     return render(request, 'new_image.html', {"form": form})
 
+
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user=current_user
+            profile.save()
+        return redirect('picturesToday')
+
+    else:
+        form = ProfileForm()
+    return render(request, 'profile.html', {"form": form})
