@@ -4,51 +4,51 @@ from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 
 # Create your models here.
-class Editor(models.Model):
-    first_name = models.CharField(max_length =30)
-    last_name = models.CharField(max_length =30)
+class Profile(models.Model):
+    profile_photo = models.ImageField(upload_to='gram/', blank=True)
+    user_name = models.CharField(max_length =30)
     email = models.EmailField()
-    phone_number = models.CharField(max_length = 10,blank =True)
 
 def __str__(self):
-        return self.first_name
+        return self.user_name
         
-def save_editor(self):
+def save_profile(self):
         self.save()
 
 class Meta:
-        ordering = ['first_name']
+        ordering = ['user_name']
 
-class tags(models.Model):
+class likes(models.Model):
     name = models.CharField(max_length =30)
 
     def __str__(self):
         return self.name
 
-class Article(models.Model):
-    title = models.CharField(max_length=60)
-    post = HTMLField()
-    editor = models.ForeignKey(User,on_delete=models.CASCADE) 
-    tags = models.ManyToManyField(tags)
+class Image(models.Model):
+    image = models.ImageField(upload_to = 'gram/', blank=True)
+    image_name = models.CharField(max_length =30)
+    image_caption = models.CharField(max_length =100)
+    profile = models.ForeignKey(User,on_delete=models.CASCADE)
+    likes = models.ManyToManyField(likes)
+    comments = models.CharField(max_length =100)
     pub_date = models.DateTimeField(auto_now_add=True)
-    article_image = models.ImageField(upload_to='articles/', blank=True)
 
 @classmethod
-def todays_news(cls):
+def todays_pictures(cls):
         today = dt.date.today()
-        news = cls.objects.filter(pub_date__date = today)
-        return news
+        pictures = cls.objects.filter(pub_date__date = today)
+        return pictures
 
 @classmethod
-def days_news(cls,date):
-        news = cls.objects.filter(pub_date__date = date)
-        return news
+def days_pictures(cls,date):
+        pictures = cls.objects.filter(pub_date__date = date)
+        return pictures
 
 @classmethod
     
 def search_by_title(cls,search_term):
-        news = cls.objects.filter(title__icontains=search_term)
-        return news
+        pictures = cls.objects.filter(title__icontains=search_term)
+        return pictures
 
 class PicturesRecipients(models.Model):
     name = models.CharField(max_length = 30)
