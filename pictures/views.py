@@ -8,12 +8,6 @@ from django.contrib.auth.decorators import login_required
 
 
 
-@login_required(login_url='/accounts/login/')
-def pictures_of_day(request):
-    date = dt.date.today()
-    pictures = Image.objects.all()
-    return render(request, 'all-pictures/today-pictures.html', {'pictures':pictures})
-
 
 @login_required(login_url='/accounts/login/')
 def pictures_of_day(request):
@@ -103,3 +97,19 @@ def profile(request):
     else:
         form = ProfileForm()
     return render(request, 'profile.html', {"form": form})
+
+
+@login_required(login_url='/accounts/login/')
+def view_profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user=current_user
+            profile.save()
+        return redirect('view-profile')
+
+    else:
+        form = ProfileForm()
+    return render(request, 'view-profile.html')
