@@ -1,47 +1,24 @@
 {%extends 'all-pictures/base.html'%}
-{% load bootstrap3 %}
 
-{% block content %}
-{{block.super}}
-<div class="container">
+ {% block content %}
 
-   <!-- Looping through pictures   -->
-   <div class="container-fluid">
+ <div class="container">
 
-     <!-- <form  action="{%url 'picturesToday'%}" method="post">
-       {%csrf_token%}
-
-      {% for field in form %}
-        {% bootstrap_field field %}
-      {% endfor %}
-       <input type="submit" value="Subscribe">
-     </form> -->
-
-    </div>
-    
-   {% for pictures_item in pictures %}
-
-     <!--Display pictures Article images  -->
-   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-       <img src="{{pictures_item.image.url}}" class="img-responsive" alt="Image">
-   </div>
-     <div class="row">
-        <!-- displaying pictures articles -->
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <h1> {{ pictures_item.image_caption }} </h2>
-      </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <h1>{{pictures_item.profile}}</h1>
-      </div>
-   </div>
-
-   </div>
-
-   {% empty %}
    <div class="row">
-     <h2 class="text-center">There No pictures Items</h2>
+     <img src="{{profile.profile_photo.url}}"  class="img-responsive" alt="">
    </div>
-   {% endfor %}
+
+   <div class="row">
+     <h1 class="text-center">{{profile.bio}}</h1>
+   </div>
+
+   <!-- <div class="row">
+    {% autoescape on %}
+    {{profile.bio| safe}}
+   {% endautoescape %}
+  
+   </div> -->
 
  </div>
-{% endblock %}
+
+ {% endblock %}

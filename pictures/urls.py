@@ -10,7 +10,7 @@ urlpatterns=[
     # url(r'^article/(\d+)',views.article,name ='article'),
     url(r'^new/image$', views.new_image, name='new-image'),
     url(r'^profile/', views.profile, name='profile'),
-    url(r'^view/profile/(\d+)', views.profile, name='view-profile'),
+    url(r'^view/profile/(\d+)', views.view_profile, name='view-profile'),
     
 ]
 if settings.DEBUG:

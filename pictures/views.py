@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect 
 from django.http import HttpResponse, Http404,HttpResponseRedirect
-from .models import Image
+from .models import Image, Profile
 import datetime as dt
 from .forms import NewImageForm, PicturesLetterForm, ProfileForm
 from .email import send_welcome_email
@@ -15,21 +15,6 @@ def pictures_of_day(request):
     pictures = Image.objects.all()
     return render(request, 'all-pictures/today-pictures.html', {'pictures':pictures})
 
-
-# def past_days_pictures(request, past_date):
-#     try:
-#         # Converts data from the string Url
-#         date = dt.datetime.strptime(past_date, '%Y-%m-%d').date()
-#     except ValueError:
-#         # Raise 404 error when ValueError is thrown
-#         raise Http404()
-#         assert False
-
-#     if date == dt.date.today():
-#         return redirect(pictures_today)
-
-#     pictures = Image.days_pictures(date)
-#     return render(request, 'all-pictures/past-pictures.html',{"date": date,"pictures":pictures})
 
 @login_required(login_url='/accounts/login/')
 def pictures_today(request):
@@ -100,7 +85,7 @@ def profile(request):
 
 
 @login_required(login_url='/accounts/login/')
-def view_profile(request,id):
+def view_profile(request, id):
 
     profile=Profile.objects.get(user_id=id)
-    return render(request, 'view-profile.html')
+    return render(request, 'view_profile.html')
