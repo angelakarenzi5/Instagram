@@ -100,16 +100,7 @@ def profile(request):
 
 
 @login_required(login_url='/accounts/login/')
-def view_profile(request):
-    current_user = request.user
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user=current_user
-            profile.save()
-        return redirect('view-profile')
+def view_profile(request,id):
 
-    else:
-        form = ProfileForm()
+    profile=Profile.objects.get(user_id=id)
     return render(request, 'view-profile.html')
