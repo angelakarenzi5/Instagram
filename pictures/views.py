@@ -59,7 +59,7 @@ def new_image(request):
         form = NewImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
-            image.profile=current_user
+            image.user=current_user
             image.save()
         return redirect('picturesToday')
 
@@ -92,4 +92,5 @@ def profile(request):
 def view_profile(request, id):
 
     profile=Profile.objects.get(user_id=id)
-    return render(request, 'view_profile.html',{"profile":profile},)
+    pictures = Image.objects.filter(user_id=id)
+    return render(request, 'view_profile.html',{"profile":profile , "pictures":pictures},)

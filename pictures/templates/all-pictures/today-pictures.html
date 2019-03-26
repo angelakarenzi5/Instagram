@@ -31,7 +31,7 @@
           <h1> {{ pictures_item.image_caption }} </h2>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <a href="{% url 'view-profile' pictures_item.profile.id %}">{{pictures_item.profile}}</a>
+        <a href="{% url 'view-profile' pictures_item.user.id %}">{{pictures_item.user}}</a>
       </div>
    </div>
 
