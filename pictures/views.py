@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect 
 from django.http import HttpResponse, Http404,HttpResponseRedirect
-from .models import Image, Profile
+from .models import Image, Profile, Comments
 import datetime as dt
-from .forms import NewImageForm, PicturesLetterForm, ProfileForm
+from .forms import NewImageForm, ProfileForm,CommentsForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 
@@ -38,19 +38,19 @@ def pictures_today(request):
             form = PicturesForm()
     return render(request, 'all-pictures/today-pictures.html', {"pictures":pictures,"PicturesForm":form})
 
-@login_required(login_url='/accounts/login/')
-def search_results(request):
+# @login_required(login_url='/accounts/login/')
+# def search_results(request):
 
-    if 'article' in request.GET and request.GET["article"]:
-        search_term = request.GET.get("article")
-        searched_articles = Article.search_by_title(search_term)
-        message = f"{search_term}"
+#     if 'article' in request.GET and request.GET["article"]:
+#         search_term = request.GET.get("article")
+#         searched_articles = Article.search_by_title(search_term)
+#         message = f"{search_term}"
 
-        return render(request, 'all-pictures/search.html',{"message":message,"articles": searched_articles})
+#         return render(request, 'all-pictures/search.html',{"message":message,"articles": searched_articles})
 
-    else:
-        message = "You haven't searched for any term"
-        return render(request, 'all-pictures/search.html',{"message":message})
+#     else:
+#         message = "You haven't searched for any term"
+#         return render(request, 'all-pictures/search.html',{"message":message})
 
 @login_required(login_url='/accounts/login/')
 def new_image(request):
@@ -94,3 +94,21 @@ def view_profile(request, id):
     profile=Profile.objects.get(user_id=id)
     pictures = Image.objects.filter(user_id=id)
     return render(request, 'view_profile.html',{"profile":profile , "pictures":pictures},)
+
+
+
+def comments(request, id):
+    current_user = request.user
+    post = Image.objects.get(id=id)
+    comments1 = Comments.objects.filter(image=post)
+    if request.method == 'POST':
+        form = CommentsForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            comment = form.cleaned_data['comment']
+            new_comment = Comments(comments = comment,user =current_user,image=post)
+            new_comment.save()
+
+    else:
+        form = CommentsForm()
+    return render(request, 'comments.html', {"form":form,'post':post,'user':current_user,'comments':comments1})

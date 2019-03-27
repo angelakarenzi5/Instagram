@@ -30,9 +30,6 @@ class Image(models.Model):
     image_caption = models.CharField(max_length =100)
     profile=models.ForeignKey(Profile, null=True)
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-    likes = models.ManyToManyField(likes)
-    comments = models.CharField(max_length =100)
-    pub_date = models.DateTimeField(auto_now_add=True)
 
 @classmethod
 def todays_pictures(cls):
@@ -54,3 +51,19 @@ def search_by_title(cls,search_term):
 class PicturesRecipients(models.Model):
     name = models.CharField(max_length = 30)
     email = models.EmailField()
+
+
+class Comments(models.Model):
+        profile=models.ForeignKey(Profile, null=True)
+        comments = models.CharField(max_length =100)
+        image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True)
+        user = models.ForeignKey(User,on_delete=models.CASCADE)
+
+        def __str__(self):
+                return self.user_name
+                
+        def save_comment(self):
+                self.save()
+
+        def __str__(self):
+                return self.name

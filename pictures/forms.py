@@ -1,9 +1,8 @@
 from django import forms
-from .models import Image, Profile
+from .models import Image, Profile, Comments
 
-class PicturesLetterForm(forms.Form):
-    your_name = forms.CharField(label='First Name',max_length=30)
-    email = forms.EmailField(label='Email')
+class CommentsForm(forms.Form):
+    comment = forms.CharField(label='Comment',max_length=100)
 
 class NewImageForm(forms.ModelForm):
     class Meta:

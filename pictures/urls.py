@@ -6,11 +6,12 @@ from . import views
 
 urlpatterns=[
     url(r'^$',views.pictures_of_day,name='picturesToday'),
-    url(r'^search/', views.search_results, name='search_results'),
+    # url(r'^search/', views.search_results, name='search_results'),
     # url(r'^article/(\d+)',views.article,name ='article'),
     url(r'^new/image$', views.new_image, name='new-image'),
     url(r'^profile/', views.profile, name='profile'),
     url(r'^view/profile/(\d+)', views.view_profile, name='view-profile'),
+    url(r'^comments/(\d+)', views.comments, name='comments'),
     
 ]
 if settings.DEBUG:
