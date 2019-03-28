@@ -4,13 +4,14 @@ body{
     background-size:cover;
 }
 img{
-  margin: 5px;
+
   border: 1px solid #ccc;
   float: left;
   text-align: center;
-  margin-left:250px;
+  margin-left:180px;
   
 }
+
 /* .container{
     border-radius: 1px solid lightseagreen;
 } */
@@ -20,4 +21,16 @@ img{
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+}
+
+h1{
+    font-family: 'Dancing Script', cursive;
+}
+
+a, .navbar-brand{
+    font-family: 'Cookie', cursive;
+    font-size:25px;
+}
+p{
+    font-family: 'Noto Sans SC', sans-serif;
 }
